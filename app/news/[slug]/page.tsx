@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getNewsBySlug, getNewsList } from "../../../lib/news";
 
 export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 export default async function NewsDetail({ params }: { params: { slug: string } }) {
   const article = await getNewsBySlug(params.slug);
@@ -20,11 +21,6 @@ export default async function NewsDetail({ params }: { params: { slug: string } 
       <div>{article.body}</div>
     </main>
   );
-}
-
-export async function generateStaticParams() {
-  const news = await getNewsList(20);
-  return news.map((n) => ({ slug: n.slug }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
